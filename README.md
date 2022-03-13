@@ -10,6 +10,21 @@
 - The repo contains [Nest.JS](https://nestjs.com) application, which uses russian proxies and do load testing of web resources using API.
 - ⚠ The app uses a proxy, but be careful, it is desirable to use a VPN.
 
+### Wait, another one?
+
+Yep, Here are some reasons to use this app:
+
+- 🙌 App works fully unattended
+- ☁️ Default configuration works perfectly on the cheapest $6/mo [DigitalOcean](https://m.do.co/c/231316d38894) instance:
+  - 1 vCPU
+  - 1 Gb RAM
+- 🧠 App consumes always near the same amount of resources, no matter doing load-testing of 5 sites or 50`000
+- 🔄 URLs and Proxies will be automatically updated
+- 😶‍🌫️ Designed with Docker and Clouds in mind
+- 💢️ Coded with pure anger
+- 🍁 Eco-friendly
+- 🥦 Gluten-free
+
 ## 🚀 Quick start
 
 ### Docker
