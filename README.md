@@ -7,21 +7,30 @@
 
 ## 🚀 Quick start
 
-### Docker
+[//]: # (### Docker)
 
-- Install [Docker](https://docker.com)
+[//]: # ()
+[//]: # (- Install [Docker]&#40;https://docker.com&#41;)
 
-- Download docker image:
+[//]: # ()
+[//]: # (- Download docker image:)
 
-  ```shell
-  docker pull ghcr.io/alexander-danilenko/ua-loadtest:latest
-  ```
+[//]: # ()
+[//]: # (  ```shell)
 
-- Launch the container for the 500 threads:
+[//]: # (  docker pull ghcr.io/alexander-danilenko/ua-loadtest:latest)
 
-  ```shell
-  docker run --rm ghcr.io/alexander-danilenko/ua-loadtest:latest
-  ```
+[//]: # (  ```)
+
+[//]: # ()
+[//]: # (- Launch the container for the 500 threads:)
+
+[//]: # ()
+[//]: # (  ```shell)
+
+[//]: # (  docker run --rm ghcr.io/alexander-danilenko/ua-loadtest:latest)
+
+[//]: # (  ```)
 
 #### Docker environment variables
 
@@ -36,34 +45,61 @@ See [.env](./.env) file. All these values could be used for the app in a docker 
   git clone https://github.com/alexander-danilenko/ua-loadtest
   ```
 
-- Build and run `5` containers **in parallel**:
+- Build and run:
 
   ```shell
-  docker-compose up --build --scale app=5
+  docker-compose up --build -d
   ```
 
-- Stop containers: `Ctrl + C`
+- See recent logs:
 
-### Linux and MacOS
-
-- Install Node `v16`: https://nodejs.org/en/download/
-
-- Clone repository:
   ```shell
-  git clone https://github.com/alexander-danilenko/ua-loadtest
+  docker-compose logs
   ```
 
-- Install all the required dependencies:
+- Stop containers:
+
   ```shell
-  yarn install
-  ```
-  
-- Build the app:
-  ```shell
-  yarn build
+  docker-compose down
   ```
 
-- Run the app in production mode:
-  ```shell
-  yarn start:prod
-  ```
+[//]: # (### Linux and MacOS)
+
+[//]: # ()
+[//]: # (- Install Node `v16`: https://nodejs.org/en/download/)
+
+[//]: # ()
+[//]: # (- Clone repository:)
+
+[//]: # (  ```shell)
+
+[//]: # (  git clone https://github.com/alexander-danilenko/ua-loadtest)
+
+[//]: # (  ```)
+
+[//]: # ()
+[//]: # (- Install all the required dependencies:)
+
+[//]: # (  ```shell)
+
+[//]: # (  yarn install)
+
+[//]: # (  ```)
+
+[//]: # (  )
+[//]: # (- Build the app:)
+
+[//]: # (  ```shell)
+
+[//]: # (  yarn build)
+
+[//]: # (  ```)
+
+[//]: # ()
+[//]: # (- Run the app in production mode:)
+
+[//]: # (  ```shell)
+
+[//]: # (  yarn start:prod)
+
+[//]: # (  ```)
