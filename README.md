@@ -7,30 +7,23 @@
 
 ## 🚀 Quick start
 
-[//]: # (### Docker)
+### Docker
 
-[//]: # ()
-[//]: # (- Install [Docker]&#40;https://docker.com&#41;)
+- Install [Docker](https://docker.com)
 
-[//]: # ()
-[//]: # (- Download docker image:)
+- Download docker image:
 
-[//]: # ()
-[//]: # (  ```shell)
 
-[//]: # (  docker pull ghcr.io/alexander-danilenko/ua-loadtest:latest)
+  ```shell
+  docker pull ghcr.io/alexander-danilenko/ua-loadtest:latest
+  ```
 
-[//]: # (  ```)
 
-[//]: # ()
-[//]: # (- Launch the container for the 500 threads:)
+- Launch the container for the 500 threads:
 
-[//]: # ()
-[//]: # (  ```shell)
-
-[//]: # (  docker run --rm ghcr.io/alexander-danilenko/ua-loadtest:latest)
-
-[//]: # (  ```)
+  ```shell
+  docker run --rm ghcr.io/alexander-danilenko/ua-loadtest:latest
+  ```
 
 #### Docker environment variables
 
@@ -63,43 +56,31 @@ See [.env](./.env) file. All these values could be used for the app in a docker 
   docker-compose down
   ```
 
-[//]: # (### Linux and MacOS)
+### Linux and MacOS
 
-[//]: # ()
-[//]: # (- Install Node `v16`: https://nodejs.org/en/download/)
+- Install Node `v16`: https://nodejs.org/en/download/
 
-[//]: # ()
-[//]: # (- Clone repository:)
+- Clone repository:
 
-[//]: # (  ```shell)
+  ```shell
+  git clone https://github.com/alexander-danilenko/ua-loadtest
+  ```
 
-[//]: # (  git clone https://github.com/alexander-danilenko/ua-loadtest)
 
-[//]: # (  ```)
+- Install all the required dependencies:
+  ```shell
+  yarn install
+  ```
 
-[//]: # ()
-[//]: # (- Install all the required dependencies:)
+  
+- Build the app:
 
-[//]: # (  ```shell)
+  ```shell
+  yarn build
+  ```
 
-[//]: # (  yarn install)
 
-[//]: # (  ```)
-
-[//]: # (  )
-[//]: # (- Build the app:)
-
-[//]: # (  ```shell)
-
-[//]: # (  yarn build)
-
-[//]: # (  ```)
-
-[//]: # ()
-[//]: # (- Run the app in production mode:)
-
-[//]: # (  ```shell)
-
-[//]: # (  yarn start:prod)
-
-[//]: # (  ```)
+- Run the app in production mode:
+  ```shell
+  yarn start:prod
+  ```
