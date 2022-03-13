@@ -12,14 +12,14 @@
 
 ### Wait, another one?
 
-Yep, Here are some reasons to use this app:
+Yep, here are some reasons to use this app:
 
 - 🙌 App works fully unattended
 - ☁️ Default configuration works perfectly on the cheapest $6/mo [DigitalOcean](https://m.do.co/c/231316d38894) instance:
   - 1 vCPU
   - 1 Gb RAM
 - 🧠 App consumes always near the same amount of resources, no matter doing load-testing of 5 sites or 50`000
-- 🔄 URLs and Proxies will be automatically updated
+- 🔄 URLs and Proxies will be automatically updated in a runtime
 - 😶‍🌫️ Designed with Docker and Clouds in mind
 - 💢️ Coded with pure anger
 - 🍁 Eco-friendly
