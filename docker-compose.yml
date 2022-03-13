@@ -6,4 +6,16 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      LOG_SUMMARY_TABLE: 'false'
+      # Defines request timeout for the target sites.
+      TIMEOUT: 10000
+      # Defines amount of concurrent requests per batch.
+      REQUESTS_CONCURRENCY: 500
+      # Print summary table with results.
+      LOG_SUMMARY_TABLE: 'true'
+      # Log response status codes to console during load testings.
+      LOG_RESPONSE_SUCCESS: 'false'
+      LOG_RESPONSE_TIMEOUT: 'false'
+      LOG_RESPONSE_ERROR: 'false'
+      # API endpoints definitions.
+      API_ENDPOINT_HOSTS: 'https://hutin-puy.nadom.app/hosts.json'
+      API_ENDPOINT_PROXIES: 'https://hutin-puy.nadom.app/proxy.json'
