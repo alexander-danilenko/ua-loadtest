@@ -59,8 +59,8 @@ services:
       LOG_RESPONSE_TIMEOUT: 'false'
       LOG_RESPONSE_ERROR: 'false'
       # API endpoints definitions.
-      API_ENDPOINT_HOSTS: 'https://hutin-puy.nadom.app/hosts.json'
-      API_ENDPOINT_PROXIES: 'https://hutin-puy.nadom.app/proxy.json'
+      UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
+      UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
 ```
 
 ### Linux and MacOS

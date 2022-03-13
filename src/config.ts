@@ -8,10 +8,10 @@ export function mainConfigValidationSchema() {
   return Joi.object({
     PORT: Joi.number().default(8080),
     REQUESTS_CONCURRENCY: Joi.number().required(),
-    API_ENDPOINT_HOSTS: Joi.string().uri().required(),
-    API_ENDPOINT_PROXIES: Joi.string().uri().required(),
+    UASHIELD_URLS: Joi.string().uri().required(),
+    UASHIELD_PROXIES: Joi.string().uri().required(),
     LOG_SUMMARY_TABLE: Joi.string().valid('true', 'false').default('true'),
-    LOG_CLEAR: Joi.string().valid('true', 'false').default('false'),
+    LOG_CLEAR: Joi.string().valid('true', 'false').default('true'),
     LOG_RESPONSE_SUCCESS: Joi.string().valid('true', 'false').default('false'),
     LOG_RESPONSE_TIMEOUT: Joi.string().valid('true', 'false').default('false'),
     LOG_RESPONSE_ERROR: Joi.string().valid('true', 'false').default('false'),
@@ -27,8 +27,8 @@ export function config() {
   return {
     api: {
       endpoints: {
-        hosts: process.env.API_ENDPOINT_HOSTS,
-        proxy: process.env.API_ENDPOINT_PROXIES,
+        urls: process.env.UASHIELD_URLS,
+        proxy: process.env.UASHIELD_PROXIES,
       },
       requestConfig: {
         timeout: +process.env.TIMEOUT,

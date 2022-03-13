@@ -7,12 +7,12 @@ import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { RandomService } from './random.service';
-import { HostResponseInterface, ProxyInterface } from '../interface';
+import { ProxyInterface, SiteInterface } from '../interface';
 
 @Injectable()
 export class ApiClientService {
   /**
-   * Axios config used for iteracting with an API service.
+   * Axios config used for interacting with an API service.
    *
    * Note: Config for sites is different.
    * @see ApiClientService.prepareRequestConfig()
@@ -28,13 +28,13 @@ export class ApiClientService {
    * API endpoints.
    */
   protected endpoints: {
-    hosts: string;
+    urls: string;
     proxy: string;
   };
 
   /**
    * List of URLs that needs to be load tested.
-   * @see ApiClientService.fetchUrls()
+   * @see ApiClientService.fetchUrlsFromHost()
    */
   urls = new Set<string>();
 
@@ -53,7 +53,7 @@ export class ApiClientService {
     protected readonly randomService: RandomService,
   ) {
     this.endpoints = {
-      hosts: this.configService.get('api.endpoints.hosts'),
+      urls: this.configService.get('api.endpoints.urls'),
       proxy: this.configService.get('api.endpoints.proxy'),
     };
     this.requestConfig = this.configService.get('api.requestConfig');
@@ -63,44 +63,29 @@ export class ApiClientService {
    * Fetches everything from an API.
    */
   async fetchAll(): Promise<void> {
-    await Promise.all([this.fetchProxies(), this.fetchUrls()]);
+    await Promise.all([this.fetchProxies(this.endpoints.proxy), this.fetchUrlsFromHost(this.endpoints.urls)]);
   }
 
   /**
    * Fetches from API all the current targets that needs to be load tested.
    *
-   * Note: method will be invoked each 5 minutes.
+   * Note: method will be invoked each 10 minutes.
    */
-  @Cron('0 */5 * * * *')
-  protected async fetchUrls() {
+  @Cron('0 */10 * * * *')
+  protected async fetchUrlsFromHost(endpointUrl: string) {
     // Retrieve list of hosts from API.
     try {
       const { data: hostsList } = await lastValueFrom(
-        this.axios.get<Array<string>>(this.endpoints.hosts, this.requestConfig),
+        this.axios.get<Array<SiteInterface>>(endpointUrl, this.requestConfig),
       );
-      this.logger.debug(`Fetching URLs from ${hostsList.length} hosts`);
-
-      // Collect promises for run requests concurrently.
-      const promises = hostsList.map((hostUrl) =>
-        lastValueFrom(this.axios.get<HostResponseInterface>(hostUrl, this.requestConfig)),
-      );
-      // Run requests concurrently.
-      const responses = await Promise.allSettled(promises);
-      // Saves URLs as a new set.
-      // NOTE: new set is needed because old targets might be outdated.
-      this.urls = responses.reduce((urlSet, promise) => {
-        if (promise.status === 'fulfilled') {
-          urlSet.add(promise.value.data.site.page);
-        }
-        return urlSet;
-      }, new Set<string>());
-      this.logger.debug(`Fetched ${this.urls.size} URLs from ${this.endpoints.hosts}`);
+      this.urls = new Set(hostsList.map((v) => v.page));
+      this.logger.debug(`Fetched ${this.urls.size} URLs from ${this.endpoints.urls}`);
     } catch (e) {
       if (!this.urls.size) {
-        this.logger.error('[Hosts|Refresh] API error. Retrying...');
-        await this.fetchUrls();
+        this.logger.error(`${endpointUrl}: ${e.message}. Retrying...`);
+        await this.fetchUrlsFromHost(endpointUrl);
       } else {
-        this.logger.warn('[Hosts|Refresh] API error. Using old values...');
+        this.logger.warn(`${endpointUrl}: ${e.message}. Skipping...`);
       }
       return;
     }
@@ -109,17 +94,15 @@ export class ApiClientService {
   /**
    * Fetches from API all the proxies that needs to be load tested.
    *
-   * Note: method will be invoked each 5 minutes.
+   * Note: method will be invoked each 10 minutes.
    */
-  @Cron('0 0 * * * *') // Refresh proxies each hour.
-  protected async fetchProxies() {
+  @Cron('0 */10 * * * *')
+  protected async fetchProxies(url: string) {
     try {
-      const { data } = await lastValueFrom(
-        this.axios.get<Array<ProxyInterface>>(this.endpoints.proxy, this.requestConfig),
-      );
+      const { data } = await lastValueFrom(this.axios.get<Array<ProxyInterface>>(url, this.requestConfig));
       // Transform response object to axios-compatible object.
       this.axiosProxies = data.map((proxy) => {
-        const [username, password] = proxy.auth.split(':', 2);
+        const [username, password] = proxy.auth?.split(':', 2) ?? [];
         const [host, port] = proxy.ip.split(':', 2);
         const axiosProxy: AxiosProxyConfig = {
           host,
@@ -134,7 +117,7 @@ export class ApiClientService {
     } catch (e) {
       if (!this.urls.size) {
         this.logger.error('[Proxy|Refresh] API error. Retrying...');
-        await this.fetchUrls();
+        await this.fetchUrlsFromHost(url);
       } else {
         this.logger.warn('[Proxy|Refresh] API error. Using old values...');
       }

@@ -9,7 +9,7 @@ services:
       # Defines request timeout for the target sites.
       TIMEOUT: 10000
       # Defines amount of concurrent requests per second.
-      REQUESTS_CONCURRENCY: 250
+      REQUESTS_CONCURRENCY: 500
       # Print summary table with results.
       LOG_SUMMARY_TABLE: 'true'
       # Log response status codes to console during load testings.
@@ -17,5 +17,5 @@ services:
       LOG_RESPONSE_TIMEOUT: 'false'
       LOG_RESPONSE_ERROR: 'false'
       # API endpoints definitions.
-      API_ENDPOINT_HOSTS: 'https://hutin-puy.nadom.app/hosts.json'
-      API_ENDPOINT_PROXIES: 'https://hutin-puy.nadom.app/proxy.json'
+      UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
+      UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
