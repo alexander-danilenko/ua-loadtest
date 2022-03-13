@@ -3,10 +3,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
-import { ApiClientService } from './service/api-client.service';
-import { LoadTesterService } from './service/load-tester.service';
+import { AppService } from './service/app.service';
 import { RandomService } from './service/random.service';
 import { StatisticsService } from './service/statistics.service';
+import { UashieldService } from './service/uashield.service';
 import { config, mainConfigValidationSchema } from './config';
 
 @Module({
@@ -21,6 +21,6 @@ import { config, mainConfigValidationSchema } from './config';
     }),
   ],
   controllers: [AppController],
-  providers: [ApiClientService, LoadTesterService, RandomService, StatisticsService],
+  providers: [UashieldService, AppService, RandomService, StatisticsService],
 })
 export class AppModule {}

@@ -1,14 +1,12 @@
 import { AxiosResponse } from 'axios';
-import { lastValueFrom } from 'rxjs';
-import { HttpService } from '@nestjs/axios';
 import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
-import { ApiClientService } from './api-client.service';
 import { StatisticsService } from './statistics.service';
+import { UashieldService } from './uashield.service';
 
 @Injectable()
-export class LoadTesterService {
+export class AppService {
   /**
    * The service logger.
    */
@@ -20,10 +18,9 @@ export class LoadTesterService {
   concurrency: number;
 
   constructor(
-    protected readonly axios: HttpService,
     protected readonly statistics: StatisticsService,
-    protected readonly apiClient: ApiClientService,
     protected readonly configService: ConfigService,
+    protected readonly apiClient: UashieldService,
   ) {
     this.concurrency = this.configService.get('app.concurrency', 500);
   }
@@ -43,12 +40,13 @@ export class LoadTesterService {
       return;
     }
 
-    // Collect promises into array.
-    const allPromises = [...Array(this.concurrency).keys()].map(() =>
-      lastValueFrom(this.axios.request(this.apiClient.prepareRandomRequestConfig())),
-    );
+    // Collect requests into array.
+    const concurrentRequests = [...Array(this.concurrency).keys()].map(() => this.apiClient.requestRandom());
+
     // Run promises and handle promise results.
-    (await Promise.allSettled(allPromises)).forEach((promiseResult) => this.handleAxiosPromiseResults(promiseResult));
+    (await Promise.allSettled(concurrentRequests)).forEach((promiseResult) =>
+      this.handleAxiosPromiseResults(promiseResult),
+    );
   }
 
   /**
@@ -78,6 +76,12 @@ export class LoadTesterService {
     const { logClear, logSummaryTable } = this.configService.get('app.logging');
     const [global, perSite] = await Promise.all([this.statistics.getStatsGlobal(), this.statistics.getStatsPerSite()]);
 
+    // No statistic collected - means requests are not finished.
+    if (!Object.keys(perSite).length) {
+      this.logger.log('Load testing in progress...');
+      return;
+    }
+
     if (logSummaryTable) {
       const tableData = Object.keys(perSite).map((url) => {
         return {
@@ -102,13 +106,9 @@ export class LoadTesterService {
    * Returns load testing status. Used in controller.
    */
   async getStatus() {
-    const { success, timeout, error } = await this.statistics.getStatsGlobal();
     return {
       hardware: await this.statistics.getHardwareStatus(),
-      stats: {
-        success: success + timeout,
-        errors: error,
-      },
+      stats: await this.statistics.getStatsGlobal(),
       proxiesLoaded: this.apiClient.axiosProxies.length,
       currentTargets: Array.from(this.apiClient.urls),
     };

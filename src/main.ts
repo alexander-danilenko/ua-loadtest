@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ApiClientService } from './service/api-client.service';
+import { UashieldService } from './service/uashield.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,7 +11,7 @@ async function bootstrap() {
   await app.listen(configService.get<number>('app.port'));
 
   // Fetch data for the API client.
-  const apiClient = app.get(ApiClientService);
-  await apiClient.fetchAll();
+  const uaShield = app.get(UashieldService);
+  await uaShield.fetchAll();
 }
 bootstrap();

@@ -48,17 +48,16 @@ services:
   app:
     image: ghcr.io/alexander-danilenko/ua-loadtest:latest
     environment:
-      # Defines request timeout for the target sites.
-      TIMEOUT: 10000 # 10 seconds.
-      # Defines amount of concurrent requests per batch.
+      # Defines amount of concurrent requests per second.
       REQUESTS_CONCURRENCY: 250
       # Print summary table with results.
       LOG_SUMMARY_TABLE: 'true'
-      # Log response status codes to console during load testing.
+      # Log response status codes to console during load testings.
       LOG_RESPONSE_SUCCESS: 'false'
       LOG_RESPONSE_TIMEOUT: 'false'
       LOG_RESPONSE_ERROR: 'false'
       # API endpoints definitions.
+      UASHIELD_REQUEST_TIMEOUT: 30000
       UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
       UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
 ```

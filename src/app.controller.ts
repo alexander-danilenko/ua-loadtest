@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
-import { LoadTesterService } from './service/load-tester.service';
+import { AppService } from './service/app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: LoadTesterService) {}
+  constructor(private readonly appService: AppService) {}
 
   @Get('/')
   async index() {

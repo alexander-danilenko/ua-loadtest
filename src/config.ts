@@ -6,8 +6,9 @@ import * as Joi from 'joi';
  */
 export function mainConfigValidationSchema() {
   return Joi.object({
-    PORT: Joi.number().default(8080),
-    REQUESTS_CONCURRENCY: Joi.number().required(),
+    PORT: Joi.number().port().default(8080),
+    REQUESTS_CONCURRENCY: Joi.number().positive().required(),
+    UASHIELD_REQUEST_TIMEOUT: Joi.number().positive().required(),
     UASHIELD_URLS: Joi.string().uri().required(),
     UASHIELD_PROXIES: Joi.string().uri().required(),
     LOG_SUMMARY_TABLE: Joi.string().valid('true', 'false').default('true'),
@@ -25,14 +26,16 @@ export function mainConfigValidationSchema() {
  */
 export function config() {
   return {
-    api: {
-      endpoints: {
-        urls: process.env.UASHIELD_URLS,
-        proxy: process.env.UASHIELD_PROXIES,
-      },
-      requestConfig: {
-        timeout: +process.env.TIMEOUT,
-      } as AxiosRequestConfig,
+    apis: {
+      uashield: {
+        endpoints: {
+          urls: process.env.UASHIELD_URLS,
+          proxy: process.env.UASHIELD_PROXIES,
+        },
+        axios: {
+          timeout: +process.env.UASHIELD_REQUEST_TIMEOUT,
+        },
+      } as UashieldConfigInterface,
     },
     app: {
       // Application port for web server.
@@ -55,4 +58,12 @@ export interface LoggingConfigInterface {
   logTimeouts: boolean;
   logErrors: boolean;
   logSuccess: boolean;
+}
+
+export interface UashieldConfigInterface {
+  endpoints: {
+    urls: string;
+    proxy: string;
+  };
+  axios: AxiosRequestConfig;
 }

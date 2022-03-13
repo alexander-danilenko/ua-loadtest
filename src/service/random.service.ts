@@ -1,8 +1,49 @@
+import { AxiosProxyConfig, AxiosRequestConfig } from 'axios';
+import https from 'https';
+import { sample as _sample } from 'lodash';
+import { lastValueFrom } from 'rxjs';
 import UserAgent from 'user-agents';
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RandomService {
+  constructor(
+    /**
+     * Axios HTTP client.
+     */
+    protected readonly axios: HttpService,
+  ) {}
+
+  /**
+   * Returns axios request object to random url with random proxy.
+   */
+  buildRandomRequest(urls: Set<string>, proxies: Array<AxiosProxyConfig>, config: AxiosRequestConfig = {}) {
+    return lastValueFrom(
+      this.axios.request(this.buildRequestConfig(_sample(Array.from(urls)), _sample(proxies), config)),
+    );
+  }
+
+  /**
+   * Returns axios config for making request to certain url with certain proxy.
+   */
+  buildRequestConfig(url: string, proxy: AxiosProxyConfig, config: AxiosRequestConfig = {}) {
+    return {
+      ...config,
+      url,
+      proxy,
+      headers: this.randomHeaders(),
+      // Accept invalid certificates.
+      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+      // Status code validation callback. Valid codes do not throw errors.
+      validateStatus: (statusCode) => {
+        // If >500: server is down.   We are happy.
+        // If <300: server responded. We are happy.
+        return statusCode >= 500 || statusCode < 300;
+      },
+    } as AxiosRequestConfig;
+  }
+
   randomInt(number: number): number {
     return Math.floor(Math.random() * number);
   }
