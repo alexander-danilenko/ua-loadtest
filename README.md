@@ -22,12 +22,16 @@
   docker pull ghcr.io/alexander-danilenko/ua-loadtest:latest
   ```
 
-- Launch the container:
+- Run the container: ([docs](https://docs.docker.com/engine/reference/commandline/run/))
 
   ```shell
   docker run --rm ghcr.io/alexander-danilenko/ua-loadtest:latest
   ```
   
+- List running containers: ([docs](https://docs.docker.com/engine/reference/commandline/ps/))
+- Stop running container: ([docs](https://docs.docker.com/engine/reference/commandline/stop/))
+- See logs for running container: ([docs](https://docs.docker.com/engine/reference/commandline/logs/))
+
 #### Docker environment variables
 
 See [.env](./.env) file. All these values could be used for the app in a docker container.
