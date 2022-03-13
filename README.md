@@ -47,7 +47,7 @@ services:
       # Defines request timeout for the target sites.
       TIMEOUT: 10000 # 10 seconds.
       # Defines amount of concurrent requests per batch.
-      REQUESTS_CONCURRENCY: 500
+      REQUESTS_CONCURRENCY: 250
       # Print summary table with results.
       LOG_SUMMARY_TABLE: 'true'
       # Log response status codes to console during load testing.

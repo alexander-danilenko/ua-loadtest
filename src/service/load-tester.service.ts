@@ -29,18 +29,26 @@ export class LoadTesterService {
   }
 
   /**
-   * Infinitely makes requests to target URLs.
-   * @see bootstrap()
+   * Makes requests to target URLs by cron.
+   *
+   * Max possible promises stored in memory could be calculated by:
+   *   concurrency * timeout (in seconds)
+   * So for 500 concurrent requests and 10s timeout max possible values in memory is:
+   *   500 * 10 = 5000
    */
+  @Cron('* * * * * *') // Each second.
   async infiniteLoop() {
-    while (true) {
-      // Collect promises into array.
-      const allPromises = [...Array(this.concurrency).keys()].map(() =>
-        lastValueFrom(this.axios.request(this.apiClient.prepareRandomRequestConfig())),
-      );
-      // Run promises and handle promise results.
-      (await Promise.allSettled(allPromises)).forEach((promiseResult) => this.handleAxiosPromiseResults(promiseResult));
+    // If no URLs was fetched then nothing to do.
+    if (!this.apiClient.urls.size) {
+      return;
     }
+
+    // Collect promises into array.
+    const allPromises = [...Array(this.concurrency).keys()].map(() =>
+      lastValueFrom(this.axios.request(this.apiClient.prepareRandomRequestConfig())),
+    );
+    // Run promises and handle promise results.
+    (await Promise.allSettled(allPromises)).forEach((promiseResult) => this.handleAxiosPromiseResults(promiseResult));
   }
 
   /**

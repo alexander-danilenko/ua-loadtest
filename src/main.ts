@@ -2,7 +2,6 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ApiClientService } from './service/api-client.service';
-import { LoadTesterService } from './service/load-tester.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,9 +13,5 @@ async function bootstrap() {
   // Fetch data for the API client.
   const apiClient = app.get(ApiClientService);
   await apiClient.fetchAll();
-
-  // Run infinite loop here.
-  const loadTesterService = app.get(LoadTesterService);
-  loadTesterService.infiniteLoop();
 }
 bootstrap();
