@@ -1,0 +1,9 @@
+version: '3'
+services:
+  # To run several containers in parallel use scale argument:
+  # docker-compose up --build --scale app=5
+  app:
+    build: .
+    restart: always
+    environment:
+      LOG_SUMMARY_TABLE: 'false'

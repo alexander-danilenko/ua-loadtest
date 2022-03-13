@@ -1,73 +1,69 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+<h1 align="center">🇺🇦 Ukraine national load-testing</h1>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 😎 Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- The repo contains [Nest.JS](https://nestjs.com) application, which uses russian proxies and do load testing of web resources using API.
+- ⚠ The app uses a proxy, but be careful, it is desirable to use a VPN.
 
-## Description
+## 🚀 Quick start
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Docker
 
-## Installation
+- Install [Docker](https://docker.com)
 
-```bash
-$ npm install
-```
+- Download docker image:
 
-## Running the app
+  ```shell
+  docker pull ghcr.io/alexander-danilenko/ua-loadtest:latest
+  ```
 
-```bash
-# development
-$ npm run start
+- Launch the container for the 500 threads:
 
-# watch mode
-$ npm run start:dev
+  ```shell
+  docker run --rm ghcr.io/alexander-danilenko/ua-loadtest:latest
+  ```
 
-# production mode
-$ npm run start:prod
-```
+#### Docker environment variables
 
-## Test
+See [.env](./.env) file. All these values could be used for the app in a docker container.
 
-```bash
-# unit tests
-$ npm run test
+### Docker Compose
 
-# e2e tests
-$ npm run test:e2e
+`docker-compose` allows you to easily run containers in parallel without having to keep multiple terminals opened. To run on servers - perfect choice.
 
-# test coverage
-$ npm run test:cov
-```
+- Clone repository:
+  ```shell
+  git clone https://github.com/alexander-danilenko/ua-loadtest
+  ```
 
-## Support
+- Build and run `5` containers **in parallel**:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+  ```shell
+  docker-compose up --build --scale app=5
+  ```
 
-## Stay in touch
+- Stop containers: `Ctrl + C`
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Linux and MacOS
 
-## License
+- Install Node `v16`: https://nodejs.org/en/download/
 
-Nest is [MIT licensed](LICENSE).
+- Clone repository:
+  ```shell
+  git clone https://github.com/alexander-danilenko/ua-loadtest
+  ```
+
+- Install all the required dependencies:
+  ```shell
+  yarn install
+  ```
+  
+- Build the app:
+  ```shell
+  yarn build
+  ```
+
+- Run the app in production mode:
+  ```shell
+  yarn start:prod
+  ```

@@ -1,6 +1,10 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
+  "importOrder": ["^typeorm(.*)", "^@nestjs/(.*)$", "module$", "controller$", "service$", "entity$", "dto$", "^[./]"],
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
   "useTabs": false,
   "printWidth": 120
 }
