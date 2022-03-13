@@ -4,6 +4,6 @@ services:
   # docker-compose up --build --scale app=5
   app:
     build: .
-    restart: always
+    restart: unless-stopped
     environment:
       LOG_SUMMARY_TABLE: 'false'
