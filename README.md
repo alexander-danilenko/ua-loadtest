@@ -1,8 +1,8 @@
 <h1 align="center">Ukraine National Load-Testing</h1>
 
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Ukraine.svg" height="42" alt="Nest Logo" hspace="10" />
-  <img src="https://nestjs.com/img/logo_text.svg" height="42" alt="Nest Logo" hspace="10" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Ukraine.svg" height="69" alt="Nest Logo" hspace="10" />
+  <img src="https://nestjs.com/img/logo_text.svg" height="69" alt="Nest Logo" hspace="10" />
 </p>
 
 ## 😎 Overview
