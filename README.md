@@ -5,12 +5,20 @@
   <img src="https://nestjs.com/img/logo_text.svg" height="69" alt="Nest Logo" hspace="10" />
 </p>
 
+- [Overview](#-overview)
+- [Quick start](#-quick-start)
+  - [Docker](#docker)
+  - [Docker Compose](#docker-compose)
+  - [Node.JS](#nodejs)
+- [ Runtime config recommendations](#️-runtime-config-recommendations)
+  - [DigitalOcean](#digitalocean)
+
 ## 😎 Overview
 
 - The repo contains [Nest.JS](https://nestjs.com) application, which uses russian proxies and do load testing of web resources using API.
 - ⚠ The app uses a proxy, but be careful, it is desirable to use a VPN.
 
-### Wait, another one?
+**Wait, another one?**
 
 Yep, here are some reasons to use this app:
 
@@ -42,16 +50,14 @@ Yep, here are some reasons to use this app:
   ```shell
   docker run --rm -d ghcr.io/alexander-danilenko/ua-loadtest:latest
   ```
-  
+
 - List running containers: ([docs](https://docs.docker.com/engine/reference/commandline/ps/))
 - Stop running container: ([docs](https://docs.docker.com/engine/reference/commandline/stop/))
 - See logs for running container: ([docs](https://docs.docker.com/engine/reference/commandline/logs/))
 
-#### Docker environment variables
+See [.env](./.env) file for the available environment variables. All these values could be adjusted for the container.
 
-See [.env](./.env) file. All these values could be used for the app in a docker container.
-
-### Docker Compose example
+### Docker Compose
 
 `docker-compose` allows you to easily run containers in parallel without having to keep multiple terminals opened. To run on servers - perfect choice.
 
@@ -78,7 +84,7 @@ services:
       UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
 ```
 
-### Linux and MacOS
+### Node.JS
 
 - Install Node `v16`: https://nodejs.org/en/download/
 
@@ -100,17 +106,16 @@ services:
   ```
 
 - Run the app in production mode:
+
   ```shell
-  yarn start:prod
+  yarn start:production
   ```
 
-## Server runtime config recommendations
-
-> ❤️ The following recommendations are tested by maintainers.
+## ⚙️ Runtime config recommendations
 
 Run container using `docker-compose` or use `--restart unless-stopped` docker parameter. Just in case.
 
-Set `REQUESTS_CONCURRENCY` to value `500 * {RAM GB}`, examples: 
+Set `REQUESTS_CONCURRENCY` to value `500 * {RAM GB}`, examples:
 
 |   RAM | Variable                               |
 |------:|:---------------------------------------|
@@ -122,7 +127,9 @@ Set `REQUESTS_CONCURRENCY` to value `500 * {RAM GB}`, examples:
 
 ### DigitalOcean
 
-Use the following `User data` scripts for automated initialization of droplet **considering its resources**: 
+> ❤️ The following scripts are tested and primarely used by maintainers.
+
+Use the following `User data` scripts for automated initialization of droplet **considering its resources**:
 
 - **Ubuntu/Debian** (recommended): [setup-debian.sh](./examples/digitalocean/setup-debian.sh)
 - **Fedora**: [setup-fedora.sh](./examples/digitalocean/setup-fedora.sh)
