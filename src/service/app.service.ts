@@ -5,6 +5,9 @@ import { Cron } from '@nestjs/schedule';
 import { StatisticsService } from './statistics.service';
 import { UashieldService } from './uashield.service';
 
+/**
+ * Main application service. All the magic happens here.
+ */
 @Injectable()
 export class AppService {
   /**
@@ -71,14 +74,17 @@ export class AppService {
     }
   }
 
-  @Cron('*/30 * * * * *')
+  /**
+   * Prints statistics to the console on a ragular basis.
+   */
+  @Cron('*/30 * * * * *') // Each 30 seconds.
   async logGlobalStatistics() {
     const { logClear, logSummaryTable } = this.configService.get('app.logging');
     const [global, perSite] = await Promise.all([this.statistics.getStatsGlobal(), this.statistics.getStatsPerSite()]);
 
-    // No statistic collected - means requests are not finished.
+    // No statistic collected - means no requests finished yet.
     if (!Object.keys(perSite).length) {
-      this.logger.log('Load testing in progress...');
+      this.logger.log('Load testing is in progress...');
       return;
     }
 

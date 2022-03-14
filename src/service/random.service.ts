@@ -6,14 +6,12 @@ import UserAgent from 'user-agents';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
+/**
+ * Service for generating any kind of random things.
+ */
 @Injectable()
 export class RandomService {
-  constructor(
-    /**
-     * Axios HTTP client.
-     */
-    protected readonly axios: HttpService,
-  ) {}
+  constructor(protected readonly axios: HttpService) {}
 
   /**
    * Returns axios request object to random url with random proxy.

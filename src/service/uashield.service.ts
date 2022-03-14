@@ -8,6 +8,11 @@ import { RandomService } from './random.service';
 import { UashieldConfigInterface } from '../config';
 import { ProxyInterface, SiteInterface } from '../interface';
 
+/**
+ * Service that consumes data from UAShield API endpoints and prepares request objects.
+ *
+ * @see AppService.infiniteLoop()
+ */
 @Injectable()
 export class UashieldService {
   /**
