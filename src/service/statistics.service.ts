@@ -107,8 +107,9 @@ export class StatisticsService {
   async getHardwareStatus() {
     const { usedMemMb, totalMemMb } = await mem.used();
     return {
-      cpu: (await cpu.usage(100)).toFixed(2) + ' %',
-      mem: ((usedMemMb * 100) / totalMemMb).toFixed(2) + ' %',
+      cpu: (await cpu.usage(100)).toFixed(2) + '%',
+      mem: ((usedMemMb * 100) / totalMemMb).toFixed(2) + '%',
+      memUsed: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + 'Mb',
     };
   }
 }
