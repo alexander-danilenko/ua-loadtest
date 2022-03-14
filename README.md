@@ -20,7 +20,7 @@ Yep, here are some reasons to use this app:
   - 1 Gb RAM
 - 🧠 App consumes always near the same amount of resources, no matter doing load-testing of 5 sites or 50`000
 - 🔄 URLs and Proxies will be automatically updated in a runtime
-- 😶‍🌫️ Designed with Docker and Clouds in mind
+- 🐋️ Designed with Docker and Clouds in mind
 - 💢️ Coded with pure anger
 - 🍁 Eco-friendly
 - 🥦 Gluten-free
@@ -110,7 +110,7 @@ services:
 
 Run container using `docker-compose` or use `--restart unless-stopped` docker parameter. Just in case.
 
-The simple load-testing efficiency recommendation: set `REQUESTS_CONCURRENCY` to value equals `${RAM in Gb} * 500` like following: 
+Set `REQUESTS_CONCURRENCY` to value `500 * {RAM GB}`, examples: 
 
 |   RAM | Variable                               |
 |------:|:---------------------------------------|
