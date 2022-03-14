@@ -103,3 +103,26 @@ services:
   ```shell
   yarn start:prod
   ```
+
+## Server runtime config recommendations
+
+> ❤️ The following recommendations are tested by maintainers.
+
+Run container using `docker-compose` or use `--restart unless-stopped` docker parameter. Just in case.
+
+The simple load-testing efficiency recommendation: set `REQUESTS_CONCURRENCY` to value equals `${RAM in Gb} * 500` like following: 
+
+|   RAM | Variable                               |
+|------:|:---------------------------------------|
+|  1 Gb | `REQUESTS_CONCURRENCY='500'` (default) |
+|  2 Gb | `REQUESTS_CONCURRENCY='1000'`          |
+|  4 Gb | `REQUESTS_CONCURRENCY='2000'`          |
+|  8 Gb | `REQUESTS_CONCURRENCY='4000'`          |
+| 16 Gb | `REQUESTS_CONCURRENCY='8000'`          |
+
+### DigitalOcean
+
+Use the following `User data` scripts for automated initialization of droplet **considering its resources**: 
+
+- **Ubuntu/Debian** (recommended): [setup-debian.sh](./examples/digitalocean/setup-debian.sh)
+- **Fedora**: [setup-fedora.sh](./examples/digitalocean/setup-fedora.sh)
