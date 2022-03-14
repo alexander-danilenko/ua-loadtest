@@ -40,7 +40,7 @@ Yep, here are some reasons to use this app:
 - Run the container: ([docs](https://docs.docker.com/engine/reference/commandline/run/))
 
   ```shell
-  docker run --rm ghcr.io/alexander-danilenko/ua-loadtest:latest
+  docker run --rm -d ghcr.io/alexander-danilenko/ua-loadtest:latest
   ```
   
 - List running containers: ([docs](https://docs.docker.com/engine/reference/commandline/ps/))
@@ -62,9 +62,10 @@ services:
   # docker-compose up --build --scale app=5
   app:
     image: ghcr.io/alexander-danilenko/ua-loadtest:latest
+    restart: unless-stopped # Re-run after system reboot or docker daemon restart.
     environment:
       # Defines amount of concurrent requests per second.
-      REQUESTS_CONCURRENCY: 250
+      REQUESTS_CONCURRENCY: 500 # Default for 1GB RAM. Recommended: {RAM in Gb} * 500.
       # Print summary table with results.
       LOG_SUMMARY_TABLE: 'true'
       # Log response status codes to console during load testings.
@@ -87,19 +88,16 @@ services:
   git clone https://github.com/alexander-danilenko/ua-loadtest
   ```
 
-
 - Install all the required dependencies:
   ```shell
   yarn install
   ```
 
-  
 - Build the app:
 
   ```shell
   yarn build
   ```
-
 
 - Run the app in production mode:
   ```shell
