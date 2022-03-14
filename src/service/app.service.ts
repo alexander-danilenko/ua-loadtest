@@ -105,7 +105,7 @@ export class AppService {
 
     const status = await this.getStatus();
     delete status.currentTargets;
-    this.logger.log(JSON.stringify(status));
+    console.log(JSON.stringify(status));
   }
 
   /**
@@ -113,9 +113,10 @@ export class AppService {
    */
   async getStatus() {
     return {
-      hardware: await this.statistics.getHardwareStatus(),
+      concurrency: this.concurrency,
+      ...(await this.statistics.getHardwareStatus()),
       stats: await this.statistics.getStatsGlobal(),
-      proxiesLoaded: this.apiClient.axiosProxies.length,
+      proxies: this.apiClient.axiosProxies.length,
       currentTargets: Array.from(this.apiClient.urls),
     };
   }
