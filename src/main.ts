@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { UashieldService } from './service/uashield.service';
+import { UashieldService } from './service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
