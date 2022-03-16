@@ -1,7 +1,7 @@
 import { cpu, mem } from 'node-os-utils';
 import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { LoggingConfigInterface } from '../config';
+import { LoggingConfigInterface, UashieldConfigInterface } from '../config';
 
 enum StatisticsType {
   'Success' = 'success',
@@ -23,10 +23,16 @@ export class StatisticsService {
   /**
    * Logging settings defined in config.
    */
-  loggingSettings: LoggingConfigInterface;
+  loggingConfig: LoggingConfigInterface;
+
+  /**
+   * UAShield config.
+   */
+  shieldConfig: UashieldConfigInterface;
 
   constructor(private readonly configService: ConfigService) {
-    this.loggingSettings = this.configService.get<LoggingConfigInterface>('app.logging');
+    this.loggingConfig = this.configService.get<LoggingConfigInterface>('app.logging');
+    this.shieldConfig = this.configService.get<UashieldConfigInterface>('apis.uashield');
   }
 
   /**
@@ -55,22 +61,25 @@ export class StatisticsService {
 
   trackSuccess(site: string, statusCode?: number, message = '') {
     this.track(StatisticsType.Success, site);
-    if (this.loggingSettings.logSuccess) {
-      this.logger.debug(`[SUCCESS:${statusCode}] Attacked: ${site} ${message}`);
+    if (this.loggingConfig.logSuccess) {
+      const proxy = this.shieldConfig.useProxy ? 'PROXY' : null;
+      this.logger.log(['OK', site, proxy, statusCode, message].filter((v) => !!v).join(' | '));
     }
   }
 
-  trackTimeout(site: string, message = '') {
+  trackTimeout(site: string, code?: number, message = '') {
     this.track(StatisticsType.Timeout, site);
-    if (this.loggingSettings.logTimeouts) {
-      this.logger.debug(`[TIMEOUT] Attacked: ${site} ${message}`);
+    if (this.loggingConfig.logTimeouts) {
+      const proxy = this.shieldConfig.useProxy ? 'PROXY' : null;
+      this.logger.log(['OK', site, proxy, message].filter((v) => !!v).join(' | '));
     }
   }
 
   trackError(site: string, statusCode?: number, message = '') {
     this.track(StatisticsType.Error, site);
-    if (this.loggingSettings.logErrors) {
-      this.logger.error(`[ERROR] ${site} ${message}`);
+    if (this.loggingConfig.logErrors) {
+      const proxy = this.shieldConfig.useProxy ? 'PROXY' : null;
+      this.logger.error([site, proxy, statusCode, message].filter((v) => !!v).join(' | '));
     }
   }
 

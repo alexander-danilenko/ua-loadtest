@@ -65,10 +65,10 @@ export class AppService {
       case 'rejected':
         const { reason } = promiseResult;
         // If promise rejected because of timeout it means server is down, and we are happy.
-        if (reason.code === 'ECONNABORTED') {
-          this.statistics.trackTimeout(url, reason.message);
+        if (['ECONNREFUSED', 'ECONNABORTED'].includes(reason.code)) {
+          this.statistics.trackTimeout(url, reason.code, reason.message);
         } else {
-          this.statistics.trackError(url, reason.response?.status, reason.message);
+          this.statistics.trackError(url, reason.code, reason.message);
         }
         break;
     }
