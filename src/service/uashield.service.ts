@@ -77,6 +77,9 @@ export class UashieldService {
    */
   @Cron('0 */10 * * * *')
   protected async fetchProxies() {
+    // Do nothing if proxy should not be used.
+    if (!this.config.useProxy) return;
+
     const { data } = await lastValueFrom(
       this.axios.get<Array<ProxyInterface>>(this.config.endpoints.proxy, this.config.axios),
     );

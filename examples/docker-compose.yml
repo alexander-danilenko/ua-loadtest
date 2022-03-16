@@ -12,7 +12,7 @@ services:
       LOG_RESPONSE_SUCCESS: 'false'
       LOG_RESPONSE_TIMEOUT: 'false'
       LOG_RESPONSE_ERROR: 'false'
-      # API endpoints definitions.
-      UASHIELD_REQUEST_TIMEOUT: 30000
+      # UAShield settings.
+      UASHIELD_USE_PROXY: 'true'
       UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
       UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'

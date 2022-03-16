@@ -76,6 +76,7 @@ services:
     image: ghcr.io/alexander-danilenko/ua-loadtest:latest
     restart: unless-stopped # Re-run after system reboot or docker daemon restart.
     environment:
+      NO_COLOR: 'true' # Disables colored output for better logs in clouds.
       # Defines amount of concurrent requests per second.
       REQUESTS_CONCURRENCY: 500 # Default for 1GB RAM. Recommended: {RAM in Gb} * 500.
       # Print summary table with results.
@@ -84,8 +85,8 @@ services:
       LOG_RESPONSE_SUCCESS: 'false'
       LOG_RESPONSE_TIMEOUT: 'false'
       LOG_RESPONSE_ERROR: 'false'
-      # API endpoints definitions.
-      UASHIELD_REQUEST_TIMEOUT: 30000
+      # UAShield settings.
+      UASHIELD_USE_PROXY: 'true'
       UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
       UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
 ```

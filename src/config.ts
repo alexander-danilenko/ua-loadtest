@@ -8,7 +8,8 @@ export function mainConfigValidationSchema() {
   return Joi.object({
     PORT: Joi.number().port().default(8080),
     REQUESTS_CONCURRENCY: Joi.number().positive().required(),
-    UASHIELD_REQUEST_TIMEOUT: Joi.number().positive().required(),
+    UASHIELD_REQUEST_TIMEOUT: Joi.number().positive().default(30000),
+    UASHIELD_USE_PROXY: Joi.string().valid('true', 'false').default('true'),
     UASHIELD_URLS: Joi.string().uri().required(),
     UASHIELD_PROXIES: Joi.string().uri().required(),
     LOG_SUMMARY_TABLE: Joi.string().valid('true', 'false').default('true'),
@@ -32,6 +33,7 @@ export function config() {
           urls: process.env.UASHIELD_URLS,
           proxy: process.env.UASHIELD_PROXIES,
         },
+        useProxy: process.env.UASHIELD_USE_PROXY === 'true',
         axios: {
           timeout: +process.env.UASHIELD_REQUEST_TIMEOUT,
         },
@@ -65,5 +67,6 @@ export interface UashieldConfigInterface {
     urls: string;
     proxy: string;
   };
+  useProxy: boolean;
   axios: AxiosRequestConfig;
 }
