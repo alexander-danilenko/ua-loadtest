@@ -57,6 +57,12 @@ Yep, here are some reasons to use this app:
 
 See [.env](./.env) file for the available environment variables. All these values could be adjusted for the container.
 
+For overriding _environment variables_ in the container started with `docker run` command, modify command for having variables in the following format:
+
+```shell
+docker run --rm -d -e 'REQUESTS_CONCURRENCY=1000' -e 'LOG_SUMMARY_TABLE=false' ghcr.io/alexander-danilenko/ua-loadtest:latest
+```
+
 ### Docker Compose
 
 `docker-compose` allows you to easily run containers in parallel without having to keep multiple terminals opened. To run on servers - perfect choice.
@@ -73,7 +79,7 @@ services:
       # Defines amount of concurrent requests per second.
       REQUESTS_CONCURRENCY: 500 # Default for 1GB RAM. Recommended: {RAM in Gb} * 500.
       # Print summary table with results.
-      LOG_SUMMARY_TABLE: 'true'
+      LOG_SUMMARY_TABLE: 'false'
       # Log response status codes to console during load testings.
       LOG_RESPONSE_SUCCESS: 'false'
       LOG_RESPONSE_TIMEOUT: 'false'
@@ -83,6 +89,9 @@ services:
       UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
       UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
 ```
+
+> ⚠️ **NOTE:** in `docker-compose.yml` file all the `true` and `false` values needs to be passed as lowercase strings (using quotes) like following: `VARIABLE_NAME: 'true'`
+
 
 ### Node.JS
 
