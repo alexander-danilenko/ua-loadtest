@@ -124,7 +124,9 @@ services:
 
 Run container using `docker-compose` or use `--restart unless-stopped` docker parameter. Just in case.
 
-Set `REQUESTS_CONCURRENCY` to value `500 * {RAM GB}`, examples:
+Set `REQUESTS_CONCURRENCY` to value `500 * {RAM GB}`, see example values below.
+
+> ⚠ **NOTE:** Please do not set too high `REQUESTS_CONCURRENCY` value for your system as it might lead to inefficient load testing, consuming all the available memory and lead app to fail.
 
 |   RAM | Variable                               |
 |------:|:---------------------------------------|
