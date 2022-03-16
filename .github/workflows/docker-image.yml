@@ -6,13 +6,12 @@ on:
       - master # Master branch will always be tagged as `image:latest`.
     tags:
       - v** # All `v*` tags will be applied to image. Git tag `v1.0` will create/update `image:1.0` image tag.
-    # Build and push image only when code-related files was changed.
-    paths:
-      - 'Dockerfile'
-      - 'src/**'
-      - '**rc'
-      - '**.lock'
-      - '**.env**'
+    paths-ignore:
+      - '**.md'
+      - '.github/**'
+      - 'docker-compose.yml'
+      - 'examples/**'
+      - 'test/**'
 
 env:
   REGISTRY: ghcr.io
