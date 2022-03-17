@@ -17,7 +17,7 @@ export function mainConfigValidationSchema() {
   return Joi.object({
     PORT: Joi.number().port().default(8080),
     REQUESTS_CONCURRENCY: Joi.number().positive().default(defaultConcurrency),
-    UASHIELD_REQUEST_TIMEOUT: Joi.number().positive().default(30000),
+    UASHIELD_REQUEST_TIMEOUT: Joi.number().positive().default(10000),
     UASHIELD_USE_PROXY: Joi.string().valid('true', 'false').default('true'),
     UASHIELD_URLS: Joi.string().uri().required(),
     UASHIELD_PROXIES: Joi.string().uri().required(),
