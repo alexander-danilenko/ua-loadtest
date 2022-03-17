@@ -60,7 +60,7 @@ See [.env](./.env) file for the available environment variables. All these value
 For overriding _environment variables_ in the container started with `docker run` command, modify command for having variables in the following format:
 
 ```shell
-docker run --rm -d -e 'REQUESTS_CONCURRENCY=1000' -e 'LOG_SUMMARY_TABLE=false' ghcr.io/alexander-danilenko/ua-loadtest:latest
+docker run --rm -d -e 'NO_COLOR=1' -e 'LOG_SUMMARY_TABLE=true' ghcr.io/alexander-danilenko/ua-loadtest:latest
 ```
 
 ### Docker Compose
@@ -77,8 +77,8 @@ services:
     restart: unless-stopped # Re-run after system reboot or docker daemon restart.
     environment:
       NO_COLOR: 'true' # Disables colored output for better logs in clouds.
-      # Defines amount of concurrent requests per second.
-      REQUESTS_CONCURRENCY: 500 # Default for 1GB RAM. Recommended: {RAM in Gb} * 500.
+      ## Defines amount of concurrent requests per second.
+      #REQUESTS_CONCURRENCY: 500 # Adjust only if needed. Recommended: 500 * {RAM GB}
       # Print summary table with results.
       LOG_SUMMARY_TABLE: 'false'
       # Log response status codes to console during load testings.
@@ -124,18 +124,6 @@ services:
 ## ⚙️ Runtime config recommendations
 
 Run container using `docker-compose` or use `--restart unless-stopped` docker parameter. Just in case.
-
-Set `REQUESTS_CONCURRENCY` to value `500 * {RAM GB}`, see example values below.
-
-> ⚠ **NOTE:** Please do not set too high `REQUESTS_CONCURRENCY` value for your system as it might lead to inefficient load testing, consuming all the available memory and lead app to fail.
-
-|   RAM | Variable                               |
-|------:|:---------------------------------------|
-|  1 Gb | `REQUESTS_CONCURRENCY='500'` (default) |
-|  2 Gb | `REQUESTS_CONCURRENCY='1000'`          |
-|  4 Gb | `REQUESTS_CONCURRENCY='2000'`          |
-|  8 Gb | `REQUESTS_CONCURRENCY='4000'`          |
-| 16 Gb | `REQUESTS_CONCURRENCY='8000'`          |
 
 ### DigitalOcean
 
