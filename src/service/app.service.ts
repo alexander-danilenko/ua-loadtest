@@ -82,13 +82,7 @@ export class AppService {
     const { logClear, logSummaryTable } = this.configService.get('app.logging');
     const [global, perSite] = await Promise.all([this.statistics.getStatsGlobal(), this.statistics.getStatsPerSite()]);
 
-    // No statistic collected - means no requests finished yet.
-    if (!Object.keys(perSite).length) {
-      this.logger.log('Load testing is in progress...');
-      return;
-    }
-
-    if (logSummaryTable) {
+    if (logSummaryTable && Object.keys(perSite).length) {
       const tableData = Object.keys(perSite).map((url) => {
         return {
           url: url,
