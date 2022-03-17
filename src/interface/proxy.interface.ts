@@ -1,5 +1,6 @@
 export interface ProxyInterface {
-  id: number;
+  id?: number;
   ip: string;
-  auth: string;
+  auth?: string;
+  scheme: 'http' | 'https' | 'socks4' | 'socks5';
 }
