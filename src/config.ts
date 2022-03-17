@@ -22,7 +22,7 @@ export function mainConfigValidationSchema() {
     UASHIELD_URLS: Joi.string().uri().required(),
     UASHIELD_PROXIES: Joi.string().uri().required(),
     LOG_SUMMARY_TABLE: Joi.string().valid('true', 'false').default('true'),
-    LOG_CLEAR: Joi.string().valid('true', 'false').default('true'),
+    LOG_CLEAR: Joi.string().valid('true', 'false').default('false'),
     LOG_RESPONSE_SUCCESS: Joi.string().valid('true', 'false').default('false'),
     LOG_RESPONSE_TIMEOUT: Joi.string().valid('true', 'false').default('false'),
     LOG_RESPONSE_ERROR: Joi.string().valid('true', 'false').default('false'),
