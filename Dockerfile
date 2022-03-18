@@ -1,14 +1,15 @@
-FROM node:16-alpine
+FROM node:16-alpine as build
 
 WORKDIR /app
-
-# Install dependencies.
 COPY package.json yarn.lock /app/
-# Use lockfile for being sure everything is compatible.
 RUN yarn install --frozen-lockfile
-# Copy project code.
 COPY . .
-# Build an app.
 RUN yarn build
+
+FROM node:16-alpine
+WORKDIR /app
+COPY package.json yarn.lock /app/
+COPY --from=build /app/dist /app/dist
+RUN yarn install --frozen-lockfile --production
 
 ENTRYPOINT ["yarn", "start:prod"]
