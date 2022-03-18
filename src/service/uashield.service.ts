@@ -62,6 +62,13 @@ export class UashieldService {
    */
   @Cron('0 */10 * * * *')
   protected async fetchUrls() {
+    // If custom targets are defined.
+    if (this.config.targets?.length) {
+      this.urls = new Set(this.config.targets);
+      this.logger.debug(`Used ${this.urls.size} URLs from "UASHIELD_TARGETS" variable`);
+      return;
+    }
+
     // Retrieve list of hosts from API.
     const { data: hostsList } = await lastValueFrom(
       this.axios.get<Array<SiteInterface>>(this.config.endpoints.urls, this.config.axios),
