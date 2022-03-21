@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     image: ghcr.io/alexander-danilenko/ua-loadtest:latest
-    restart: unless-stopped # Re-run after system reboot or docker daemon restart.
+    restart: always # Re-run after system reboot or docker daemon restart.
     environment:
       NO_COLOR: 'true' # Disables colored output for better logs in clouds.
       ## Defines amount of concurrent requests per second.
