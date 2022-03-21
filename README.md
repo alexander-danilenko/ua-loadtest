@@ -128,7 +128,7 @@ services:
 - Run the app in production mode:
 
   ```shell
-  yarn start:production
+  yarn start:prod
   ```
 
 ## ⚙️ Runtime config recommendations
