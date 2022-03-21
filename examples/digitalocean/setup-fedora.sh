@@ -3,7 +3,7 @@
 TARGET_DIR="/root"
 
 # Install prerequisites.
-dnf install -y curl docker docker-compose
+dnf install -y curl docker docker-compose htop
 # Restart docker service.
 service docker restart
 

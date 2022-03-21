@@ -14,7 +14,7 @@ swapon -a
 
 # Install prerequisites.
 apt-get -y update
-apt-get install -y git curl docker.io docker-compose
+apt-get install -y curl docker.io docker-compose htop
 docker pull ghcr.io/alexander-danilenko/ua-loadtest:latest
 
 # Download example docker-compose.yml file.
