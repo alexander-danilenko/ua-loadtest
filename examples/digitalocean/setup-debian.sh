@@ -2,6 +2,16 @@
 
 TARGET_DIR="/root"
 
+# Create swap.
+SWAP_SIZE='8G' && \
+SWAP_FILE='/swapfile' && \
+swapoff -a && \
+fallocate -l ${SWAP_SIZE} ${SWAP_FILE} && \
+chmod 600 ${SWAP_FILE} && \
+mkswap ${SWAP_FILE} && \
+swapon ${SWAP_FILE} && \
+swapon -a
+
 # Install prerequisites.
 apt-get -y update
 apt-get install -y git curl docker.io docker-compose
