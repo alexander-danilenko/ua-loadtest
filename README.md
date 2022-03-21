@@ -5,6 +5,14 @@
   <img src="https://nestjs.com/img/logo_text.svg" height="69" alt="Nest Logo" hspace="10" />
 </p>
 
+<p align="center">
+<a href="#"><img alt="Forks" src="https://img.shields.io/github/forks/alexander-danilenko/ua-loadtest?style=for-the-badge"></a>
+<a href="#"><img alt="Last commit (master)" src="https://img.shields.io/github/last-commit/alexander-danilenko/ua-loadtest/master?color=green&style=for-the-badge"></a>
+<a href="#"><img alt="Repo Stars" src="https://img.shields.io/github/stars/alexander-danilenko/ua-loadtest?style=for-the-badge&color=yellow"></a>
+<a href="https://github.com/alexander-danilenko/ua-loadtest/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/alexander-danilenko/ua-loadtest?color=orange&style=for-the-badge&mit"></a>
+<a href="https://github.com/alexander-danilenko/ua-loadtest/issues"><img alt="Issues" src="https://img.shields.io/github/issues/alexander-danilenko/ua-loadtest?color=purple&style=for-the-badge"></a>
+</p>
+
 - [Overview](#-overview)
 - [Quick start](#-quick-start)
   - [Docker](#docker)
