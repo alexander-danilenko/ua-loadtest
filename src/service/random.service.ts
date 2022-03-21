@@ -2,6 +2,7 @@ import { AxiosProxyConfig, AxiosRequestConfig } from 'axios';
 import https from 'https';
 import { sample as _sample } from 'lodash';
 import { lastValueFrom } from 'rxjs';
+import { SocksProxyAgent } from 'socks-proxy-agent';
 import UserAgent from 'user-agents';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
@@ -26,20 +27,36 @@ export class RandomService {
    * Returns axios config for making request to certain url with certain proxy.
    */
   buildRequestConfig(url: string, proxy: AxiosProxyConfig, config: AxiosRequestConfig = {}) {
-    return {
+    const requestConfig: AxiosRequestConfig = {
       ...config,
       url,
-      proxy,
       headers: this.randomHeaders(),
-      // Accept invalid certificates.
-      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
       // Status code validation callback. Valid codes do not throw errors.
       validateStatus: (statusCode) => {
         // If >500: server is down.   We are happy.
         // If <300: server responded. We are happy.
         return statusCode >= 500 || statusCode < 300;
       },
-    } as AxiosRequestConfig;
+    };
+
+    switch (proxy.protocol) {
+      case 'socks4':
+      case 'socks5':
+        requestConfig.httpsAgent = requestConfig.httpAgent = new SocksProxyAgent(
+          `${proxy.protocol}://${proxy.host}:${proxy.port}`,
+          {
+            timeout: 2000, // 2 seconds is less than total request timeout.
+          },
+        );
+        break;
+
+      default:
+        requestConfig.proxy = proxy;
+        // Accept invalid certificates.
+        requestConfig.httpsAgent = new https.Agent({ rejectUnauthorized: false });
+    }
+
+    return requestConfig;
   }
 
   randomInt(number: number): number {

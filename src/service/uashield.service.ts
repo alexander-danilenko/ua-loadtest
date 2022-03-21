@@ -91,22 +91,19 @@ export class UashieldService {
       this.axios.get<Array<ProxyInterface>>(this.config.endpoints.proxy, this.config.axios),
     );
     // Transform response object to axios-compatible object.
-    this.axiosProxies = data
-      // Use only HTTP/HTTPS proxies.
-      // @TODO: Add support for SOCKS4 & SOCKS5 proxy types.
-      .filter((proxy) => !proxy.scheme || ['http', 'https'].includes(proxy.scheme.toLowerCase()))
-      .map((proxy) => {
-        const [username, password] = proxy.auth?.split(':', 2) ?? [];
-        const [host, port] = proxy.ip.split(':', 2);
-        const axiosProxy: AxiosProxyConfig = {
-          host,
-          port: port ? parseInt(port) : 443,
-        };
-        if (username && password) {
-          axiosProxy.auth = { username, password };
-        }
-        return axiosProxy;
-      });
+    this.axiosProxies = data.map((proxy) => {
+      const [username, password] = proxy.auth?.split(':', 2) ?? [];
+      const [host, port] = proxy.ip.split(':', 2);
+      const axiosProxy: AxiosProxyConfig = {
+        host,
+        port: +port || 8080,
+        protocol: proxy.scheme || 'http',
+      };
+      if (username && password) {
+        axiosProxy.auth = { username, password };
+      }
+      return axiosProxy;
+    });
     this.logger.debug(`Fetched ${this.axiosProxies.length} proxies from ${this.config.endpoints.proxy}`);
   }
 
