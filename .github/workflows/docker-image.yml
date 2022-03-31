@@ -6,6 +6,7 @@ on:
       - master # Master branch will always be tagged as `image:latest`.
     tags:
       - v** # All `v*` tags will be applied to image. Git tag `v1.0` will create/update `image:1.0` image tag.
+      - experimental* # All experimental tags.
     paths-ignore:
       - '**.md'
       - '.github/**'
