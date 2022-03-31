@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { freemem, totalmem } from 'os';
 import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
@@ -25,7 +26,17 @@ export class AppService {
     protected readonly configService: ConfigService,
     protected readonly apiClient: UashieldService,
   ) {
-    this.concurrency = this.configService.get('app.concurrency', 500);
+    this.concurrency = 500;
+    this.logger.debug(`Starting with concurrency: ${this.concurrency}`);
+  }
+
+  /**
+   * Automatically calculate concurrency value and adjust it in a runtime based on free memory.
+   */
+  @Cron('*/10 * * * * *')
+  async refreshConcurrency() {
+    // If memory is free more than 25% then we can increase the concurrency.
+    this.concurrency = freemem() / totalmem() > 0.25 ? this.concurrency + 100 : this.concurrency - 100;
   }
 
   /**

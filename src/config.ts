@@ -1,22 +1,12 @@
 import { AxiosRequestConfig } from 'axios';
 import * as Joi from 'joi';
-import { totalmem } from 'os';
 
 /**
  * Validation schema for environment variables.
  */
 export function mainConfigValidationSchema() {
-  // Calculate recommended concurrency for the app.
-  // Formula: 500 * {RAM GB}
-  let defaultConcurrency = Math.round(totalmem() / 1024 / 1024 / 2);
-  // Limit default value for preventing node heap out of memory errors.
-  // NOTE: Do not limit passed variable in schema for being able to override with any value.
-  const maxConcurrency = 16000;
-  defaultConcurrency = defaultConcurrency >= maxConcurrency ? maxConcurrency : defaultConcurrency;
-
   return Joi.object({
     PORT: Joi.number().port().default(8080),
-    REQUESTS_CONCURRENCY: Joi.number().positive().default(defaultConcurrency),
     UASHIELD_REQUEST_TIMEOUT: Joi.number().positive().default(10000),
     UASHIELD_USE_PROXY: Joi.string().valid('true', 'false').default('true'),
     UASHIELD_URLS: Joi.string().uri().required(),
@@ -67,7 +57,6 @@ export function config() {
     app: {
       // Application port for web server.
       port: +process.env.PORT,
-      concurrency: +process.env.REQUESTS_CONCURRENCY,
       logging: {
         logSummaryTable: process.env.LOG_SUMMARY_TABLE === 'true',
         logClear: process.env.LOG_CLEAR === 'true',

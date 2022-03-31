@@ -85,8 +85,6 @@ services:
     restart: unless-stopped # Re-run after system reboot or docker daemon restart.
     environment:
       NO_COLOR: 'true' # Disables colored output for better logs in clouds.
-      ## Defines amount of concurrent requests per second.
-      #REQUESTS_CONCURRENCY: 500 # Adjust only if needed. Recommended: 500 * {RAM GB}
       # Print summary table with results.
       LOG_SUMMARY_TABLE: 'false'
       # Log response status codes to console during load testings.
@@ -95,10 +93,10 @@ services:
       LOG_RESPONSE_ERROR: 'false'
       # UAShield settings.
       UASHIELD_USE_PROXY: 'true'
+      UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
+      UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
       ## Override target URLs. Needs to be valid JSON array with URLs.
       #UASHIELD_TARGETS: '["https://kremlin.ru", "https://www.sberbank.ru"]'
-      UASHIELD_URLS: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/sites.json'
-      UASHIELD_PROXIES: 'https://raw.githubusercontent.com/opengs/uashieldtargets/v2/proxy.json'
 ```
 
 > ⚠️ **NOTE:** in `docker-compose.yml` file all the `true` and `false` values needs to be passed as lowercase strings (using quotes) like following: `VARIABLE_NAME: 'true'`
